@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>📸 Perfil Ingrid ✨ | Checkout Privado</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stripe Buy Button -->
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        of: {
+                            blue: '#00AFF0', darkBlue: '#009ce0', bg: '#f8fafc',
+                            text: '#242529', gray: '#8a96a3', border: '#e0e6ea'
+                        },
+                        mp: {
+                            blue: '#009EE3', dark: '#0084BD', light: '#E5F4FB'
+                        }
+                    },
+                    boxShadow: { 'up': '0 -4px 15px rgba(0, 0, 0, 0.05)' }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes scaleUp { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .scale-up { animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .btn-pulse { animation: pulse 1.5s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 158, 227, 0.4); }
+            70% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(0, 158, 227, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 158, 227, 0); }
+        }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .toast-enter { animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .video-locked { filter: blur(14px) brightness(0.6); transition: all 0.5s ease; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-of-text font-sans antialiased selection:bg-of-blue selection:text-white">
+
+    <div id="error-toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-full shadow-lg z-[100] hidden transition-opacity duration-300 opacity-0 font-bold text-sm whitespace-nowrap">
+        Error al procesar. Intentá nuevamente.
+    </div>
+
+    <!-- Container Fixo da Tela Inteira -->
+    <div id="checkout-view" class="w-full min-h-[100dvh] flex justify-center items-start overflow-hidden">
+        <!-- Coluna central do app -->
+        <div class="w-full max-w-md bg-white min-h-full relative shadow-2xl flex flex-col text-left">
+            
+            <header class="shrink-0 z-30 bg-white/90 backdrop-blur-md border-b border-of-border flex items-center justify-center px-4 py-3">
+                <h1 class="font-bold text-lg tracking-tight uppercase"><i class="fa-solid fa-lock text-of-blue mr-2"></i> Suscribirse Seguro</h1>
+            </header>
+
+            <main class="flex-1 overflow-y-auto pb-12">
+                <!-- Capa e Perfil -->
+                <div class="relative">
+                    <img src="https://i.postimg.cc/5tFvDQ1q/download.gif" alt="Capa" class="h-32 w-full object-cover object-center bg-gray-200" fetchpriority="high" decoding="async">
+                    <div class="absolute -bottom-10 left-4">
+                        <div class="w-20 h-20 rounded-full border-4 border-white bg-gray-200 overflow-hidden relative shadow-sm">
+                            <img src="https://i.postimg.cc/C1G8xyR1/5156701889683893663.jpg" alt="Ingrid" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 px-4 pb-4 border-b border-of-border">
+                    <div class="flex items-center gap-1">
+                        <h2 class="text-xl font-bold text-of-text tracking-tight">Ingrid</h2>
+                        <i class="fa-solid fa-circle-check text-blue-500 text-sm"></i>
+                    </div>
+                    
+                    <div class="flex items-center gap-1 mt-0.5 mb-1">
+                        <span class="bg-[#229ED9]/10 text-[#229ED9] text-[11px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
+                            <i class="fa-brands fa-telegram text-sm"></i> Verificada por Telegram
+                        </span>
+                    </div>
+                    
+                    <p class="text-of-gray text-sm">@ingridjacobot</p>
+                    
+                    <div class="flex gap-4 mt-2 text-sm font-semibold text-of-gray">
+                        <span><i class="fa-solid fa-image text-of-blue"></i> 250 Fotos</span>
+                        <span><i class="fa-solid fa-video text-of-blue"></i> 100 Videos</span>
+                    </div>
+                    
+                    <p class="mt-3 text-sm text-of-text leading-relaxed font-medium">
+                        Desbloqueá ahora para tener acceso instantáneo a mi archivo privado completo. Cero suscripciones mensuales, pagás una vez y tenés acceso para siempre.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="bg-green-50 text-green-600 border border-green-200 text-xs font-semibold px-2 py-1 rounded-lg flex items-center gap-1">
+                            <i class="fa-solid fa-bolt"></i> Acceso Inmediato
+                        </span>
+                        <span class="bg-blue-50 text-blue-600 border border-blue-200 text-xs font-semibold px-2 py-1 rounded-lg flex items-center gap-1">
+                            <i class="fa-solid fa-star"></i> Contenido Exclusivo
+                        </span>
+                    </div>
+                </div>
+
+                <div class="px-4 py-4 bg-gray-50 border-b border-of-border">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-of-text uppercase tracking-wider">Previa del Contenido</h3>
+                        <span class="text-[10px] bg-red-100 text-red-600 font-bold px-2 py-1 rounded-full animate-pulse uppercase tracking-wide">Muestra Gratis</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <div class="video-container relative rounded-lg overflow-hidden bg-black aspect-[3/4] group shadow-sm cursor-pointer">
+                            <img src="https://i.postimg.cc/Zq3BwkF8/download-(1).gif" class="preview-video w-full h-full object-cover" alt="Previa 1">
+                            <div class="play-overlay absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity">
+                                <div class="w-12 h-12 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white shadow-lg">
+                                    <i class="fa-solid fa-play ml-1 text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="locked-overlay hidden absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white p-2 text-center z-10 transition-opacity">
+                                <i class="fa-solid fa-lock text-3xl mb-2 text-of-blue"></i>
+                                <span class="text-xs font-bold uppercase tracking-wider mb-1 text-red-400">Tiempo Agotado</span>
+                                <span class="text-[10px] leading-tight text-gray-200">Suscribite para ver completo</span>
+                            </div>
+                        </div>
+                        
+                        <div class="video-container relative rounded-lg overflow-hidden bg-black aspect-[3/4] group shadow-sm cursor-pointer">
+                            <img src="https://i.postimg.cc/FFGfWV3K/download-(3).gif" class="preview-video w-full h-full object-cover" alt="Previa 2">
+                            <div class="play-overlay absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity">
+                                <div class="w-12 h-12 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white shadow-lg">
+                                    <i class="fa-solid fa-play ml-1 text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="locked-overlay hidden absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white p-2 text-center z-10 transition-opacity">
+                                <i class="fa-solid fa-lock text-3xl mb-2 text-of-blue"></i>
+                                <span class="text-xs font-bold uppercase tracking-wider mb-1 text-red-400">Tiempo Agotado</span>
+                                <span class="text-[10px] leading-tight text-gray-200">Suscribite para ver completo</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-2 relative rounded-lg overflow-hidden bg-gray-200 h-20 flex items-center justify-center bg-[url('https://i.postimg.cc/C1G8xyR1/5156701889683893663.jpg')] bg-cover bg-center shadow-inner">
+                        <div class="absolute inset-0 backdrop-blur-md bg-black/60"></div>
+                        <div class="relative z-10 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-unlock-keyhole text-2xl text-white"></i>
+                            <div class="flex flex-col">
+                                <span class="text-white font-black text-lg leading-none">+ 350 Archivos</span>
+                                <span class="text-gray-300 text-xs mt-1">Disponibles tras confirmar pago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-4 py-5">
+                    
+                    <!-- TICKET ÚNICO -->
+                    <div class="flex flex-col gap-3 mb-6">
+                        <div class="relative flex items-center p-5 rounded-xl border-2 border-of-blue bg-blue-50/50 shadow-md">
+                            <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-of-blue to-of-darkBlue text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase shadow-sm flex items-center gap-1 whitespace-nowrap">
+                                <i class="fa-solid fa-crown"></i> Tu Acceso VIP
+                            </div>
+                            <div class="flex-1 text-center mt-2">
+                                <h4 class="font-black text-xl text-of-blue mb-1">Suscripción de por vida</h4>
+                                <p class="text-sm text-gray-700 font-medium mb-3">Acceso al archivo completo + actualizaciones diarias.</p>
+                                <div class="inline-flex items-center justify-center gap-2 bg-white px-4 py-2 rounded-xl shadow-inner border border-blue-100">
+                                    <span class="text-gray-400 line-through text-sm font-semibold">$ 35.000</span>
+                                    <span class="font-black text-3xl text-of-text tracking-tighter">$ 14.000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 mb-4">
+                        <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider">¿Cómo querés pagar?</h3>
+                    </div>
+
+                    <!-- OPCIÓN 1: MERCADO PAGO / TRANSFERENCIA -->
+                    <div class="bg-white border-2 border-mp-blue rounded-xl p-4 mb-5 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-mp-blue text-white text-[9px] font-black px-2 py-1 rounded-bl-lg uppercase tracking-wider">Recomendado</div>
+                        
+                        <div class="flex items-center gap-3 mb-3 mt-1">
+                            <div class="w-10 h-10 bg-mp-light rounded-full flex items-center justify-center shrink-0">
+                                <img src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.19.1/mercadopago/logo__small@2x.png" alt="MP" class="h-5 object-contain">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-bold text-gray-800 leading-tight">Mercado Pago / App</span>
+                                <span class="text-xs text-gray-500 font-medium">Aprobación inmediata. 0% Impuestos.</span>
+                            </div>
+                        </div>
+
+                        <div class="text-xs text-gray-600 bg-mp-light/50 border border-mp-blue/20 p-2.5 rounded-lg flex gap-2 items-start mb-4 shadow-sm">
+                            <i class="fa-solid fa-shield-halved text-mp-blue mt-0.5 text-base"></i>
+                            <p><strong>Dinero protegido.</strong> Funciona igual a una transferencia normal: copiás, pegás en tu app y listo.</p>
+                        </div>
+
+                        <button onclick="processCheckout()" id="main-cta-btn" class="w-full bg-mp-blue hover:bg-mp-dark active:scale-[0.98] text-white rounded-lg py-3.5 font-bold text-[16px] transition-all flex items-center justify-center gap-2 shadow-md">
+                            Generar Código <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </button>
+                    </div>
+
+                    <!-- OPCIÓN 2: TARJETA / STRIPE -->
+                    <div class="bg-white border-2 border-gray-200 rounded-xl p-4 shadow-sm relative">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
+                                <i class="fa-regular fa-credit-card text-lg text-gray-600"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-bold text-gray-800 leading-tight">Tarjeta Crédito / Débito</span>
+                                <span class="text-xs text-gray-500 font-medium">Pago encriptado internacional.</span>
+                            </div>
+                        </div>
+                        
+                        <!-- BOTÓN DE STRIPE DIRETO -->
+                        <div class="w-full flex justify-center items-center min-h-[44px]">
+                            <stripe-buy-button
+                              buy-button-id="buy_btn_1TEmtRRiZ1daP1HSR3XPkQ5F"
+                              publishable-key="pk_live_51PbnrcRiZ1daP1HS5lzOckdWF09BfZcVCSEksJQidzo08yytrmBNjqpqq7qFJDlMTkVueNqj43cUqUK7GN5TldFk00jGVpe3zW"
+                            >
+                            </stripe-buy-button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-2 text-xs text-of-gray pb-4 mt-6 opacity-70">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>Protegido por reCAPTCHA y SSL</span>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Modal PIX (Tutorial MP) -->
+            <div id="pix-modal-overlay" class="fixed inset-0 bg-black/60 z-50 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm" onclick="closePixModal()"></div>
+            <div id="pix-modal" class="fixed bottom-0 left-0 w-full bg-white rounded-t-3xl z-50 hidden flex-col shadow-2xl max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-center p-3">
+                    <div class="w-12 h-1.5 bg-gray-300 rounded-full"></div>
+                </div>
+                <div id="pix-modal-content" class="px-6 pb-8 text-center relative">
+                    <button onclick="closePixModal()" class="absolute right-4 top-0 w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="inline-flex items-center justify-center w-12 h-12 bg-mp-light text-mp-blue rounded-full mb-3">
+                        <img src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.19.1/mercadopago/logo__small@2x.png" alt="MP" class="h-6 object-contain">
+                    </div>
+                    <h3 class="text-xl font-bold mb-1 text-gray-800">Completá el pago</h3>
+                    <p class="text-gray-500 text-sm mb-5">El sistema funciona exactamente igual que una transferencia local.</p>
+                    
+                    <!-- QR e Input -->
+                    <div class="bg-gray-50 border border-gray-200 p-4 rounded-2xl inline-block mb-5 shadow-sm">
+                        <img id="pix-qr-img" src="" alt="QR Code PIX" class="w-40 h-40 mx-auto">
+                    </div>
+                    <div class="text-left mb-2">
+                        <label class="text-xs font-bold text-gray-700 uppercase tracking-wider ml-1">Código de Pago (Equivalente a CBU/Alias)</label>
+                    </div>
+                    <div class="bg-gray-100 border border-gray-200 rounded-xl flex items-center p-1.5 mb-5 relative">
+                        <input type="text" id="pix-code" readonly value="" class="bg-transparent text-sm text-gray-600 w-full px-3 outline-none truncate font-mono">
+                        <button onclick="copyPixCode()" class="bg-mp-blue hover:bg-mp-dark text-white px-5 py-2.5 rounded-lg text-sm font-bold active:scale-95 transition-all shadow-sm whitespace-nowrap">
+                            Copiar
+                        </button>
+                    </div>
+
+                    <!-- TUTORIAL PIX -->
+                    <div class="bg-mp-light border border-mp-blue/30 rounded-xl p-4 text-left mb-6 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-mp-blue text-white text-[9px] font-black px-2 py-1 rounded-bl-lg uppercase tracking-widest">Guía Paso a Paso</div>
+                        <h4 class="text-mp-dark font-bold text-[14px] mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-mp-blue text-lg"></i> ¿Cómo pagar en Argentina?
+                        </h4>
+                        <ol class="text-xs text-gray-700 space-y-3 font-medium ml-1">
+                            <li class="flex items-start gap-3">
+                                <span class="bg-mp-blue text-white rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 text-[11px] font-bold shadow-sm">1</span>
+                                <p>Hacé clic en el botón <strong class="text-mp-dark">Copiar</strong> acá arriba.</p>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-mp-blue text-white rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 text-[11px] font-bold shadow-sm">2</span>
+                                <p>Abrí tu app de <strong class="text-mp-blue">Mercado Pago</strong> (o tu billetera virtual).</p>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-mp-blue text-white rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 text-[11px] font-bold shadow-sm">3</span>
+                                <p>Elegí la opción <strong class="text-mp-dark">"Transferir"</strong>. Pegá este código en el buscador, <span class="text-gray-500 italic">exactamente en el mismo lugar donde escribirías un CBU o Alias.</span></p>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-mp-blue text-white rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 text-[11px] font-bold shadow-sm">4</span>
+                                <p>El sistema lo detecta solo. Confirmá el monto en pesos y listo. <strong class="text-[#00A650]">¡Cero impuestos país ni recargos!</strong></p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <button onclick="verifyPaymentRedirect()" class="w-full bg-[#00A650] hover:bg-[#008c44] text-white font-bold py-3.5 rounded-lg mb-4 transition-all flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-shield-check text-lg"></i> ¡Listo, ya transferí!
+                    </button>
+                    <p id="copy-msg" class="text-sm text-[#00A650] font-medium h-5 opacity-0 transition-opacity absolute w-full left-0 mt-[-10px]">¡Código copiado correctamente!</p>
+                    <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center px-2">
+                        <span class="text-gray-500 font-medium">Total a pagar:</span>
+                        <span id="pix-modal-total" class="text-2xl font-black text-gray-800">$ 14.000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SCRIPT VANILLA (CHECKOUT APP)                  -->
+    <!-- ============================================== -->
+    <script>
+        const PUSHINPAY_API_URL = 'https://api.pushinpay.com.br/api';
+        const PUSHINPAY_TOKEN = '63870|0NFpiGh89fCg4FDeU7KnfqqqUdnEKvxeuZ4LLHGv13fd7d0c';
+        
+        // Conversão de 14.000 ARS para base do backend em BRL (~ 67 BRL)
+        const PRICE_BRL = 67.00; 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupOneTimeVideos();
+        });
+
+        // Toast de Erro Amigável
+        function showErrorToast(message) {
+            const toast = document.getElementById('error-toast');
+            toast.innerText = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.replace('opacity-0', 'opacity-100'), 10);
+            
+            setTimeout(() => {
+                toast.classList.replace('opacity-100', 'opacity-0');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3500);
+        }
+
+        // Lógica de Previews (GIFs)
+        function setupOneTimeVideos() {
+            const containers = document.querySelectorAll('.video-container');
+            containers.forEach(container => {
+                const video = container.querySelector('.preview-video');
+                const playOverlay = container.querySelector('.play-overlay');
+                const lockedOverlay = container.querySelector('.locked-overlay');
+                let hasPlayed = false;
+                let isLocked = false;
+                
+                container.addEventListener('click', () => {
+                    if (isLocked) {
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                        return;
+                    }
+                    if (!hasPlayed) {
+                        hasPlayed = true;
+                        playOverlay.classList.add('hidden'); 
+                        
+                        setTimeout(() => {
+                            video.classList.add('video-locked'); 
+                            lockedOverlay.classList.remove('hidden'); 
+                            isLocked = true;
+                        }, 3000);
+                    }
+                });
+            });
+        }
+
+        async function processCheckout() {
+            const btn = document.getElementById('main-cta-btn');
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Generando...';
+                const valueCents = Math.round(PRICE_BRL * 100);
+
+                const response = await fetch(`${PUSHINPAY_API_URL}/pix/cashIn`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json', 'Accept': 'application/json',
+                        'Authorization': `Bearer ${PUSHINPAY_TOKEN}` 
+                    },
+                    body: JSON.stringify({ value: valueCents })
+                });
+
+                if(!response.ok) throw new Error('Error API');
+
+                const data = await response.json();
+                const pixCode = data.qr_code || data.qr_code_text || data.brcode;
+
+                if (pixCode && data.id) {
+                    document.getElementById('pix-code').value = pixCode;
+                    document.getElementById('pix-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(pixCode)}`;
+                    openPixModal();
+                } else {
+                    throw new Error('Sin código');
+                }
+            } catch (error) {
+                showErrorToast("Error al procesar el pago. Por favor intentá nuevamente.");
+            } finally {
+                btn.innerHTML = originalText;
+            }
+        }
+
+        function verifyPaymentRedirect() {
+            window.location.href = "https://verificataxaaa.netlify.app";
+        }
+
+        function openPixModal() {
+            const modal = document.getElementById('pix-modal');
+            const overlay = document.getElementById('pix-modal-overlay');
+            overlay.classList.remove('hidden');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.replace('opacity-0', 'opacity-100');
+                modal.classList.add('slide-up');
+            }, 10);
+        }
+
+        function closePixModal() {
+            const modal = document.getElementById('pix-modal');
+            const overlay = document.getElementById('pix-modal-overlay');
+            overlay.classList.replace('opacity-100', 'opacity-0');
+            modal.style.transform = 'translateY(100%)';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                modal.classList.remove('slide-up');
+                modal.classList.add('hidden');
+                modal.style.transform = '';
+            }, 300);
+        }
+
+        function copyPixCode() {
+            const pixCode = document.getElementById('pix-code');
+            pixCode.select();
+            pixCode.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(pixCode.value).then(() => {
+                const msg = document.getElementById('copy-msg');
+                msg.classList.replace('opacity-0', 'opacity-100');
+                setTimeout(() => msg.classList.replace('opacity-100', 'opacity-0'), 2500);
+            });
+        }
+    </script>
+</body>
+</html>
