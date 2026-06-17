@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>📸 Perfil Ingrid ✨ | Checkout Privado</title>
     
+    <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Tailwind & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -39,6 +41,36 @@
         @keyframes scaleUp { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .scale-up { animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .video-locked { filter: blur(14px) brightness(0.6); transition: all 0.5s ease; }
+        
+        /* OVERRIDE: Forçando o botão da DLocal Go a ficar bonito e integrado ao layout */
+        [id^="dp-btn-"] {
+            width: 100% !important;
+            display: flex !important;
+            justify-content: center !important;
+        }
+        [id^="dp-btn-"] button {
+            background-color: #00AFF0 !important; /* Azul do tema */
+            color: #ffffff !important;
+            width: 100% !important;
+            border-radius: 0.5rem !important; /* Arredondamento padrão */
+            padding: 0.875rem 1.5rem !important; /* Altura do botão */
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+            border: none !important;
+            cursor: pointer !important;
+            font-family: 'Inter', sans-serif !important;
+            transition: all 0.2s ease !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }
+        [id^="dp-btn-"] button:hover {
+            background-color: #009ce0 !important; /* Azul mais escuro no hover */
+            transform: translateY(-1px) !important;
+        }
+        [id^="dp-btn-"] button:active {
+            transform: scale(0.98) !important;
+        }
     </style>
 </head>
 
@@ -48,7 +80,9 @@
         Error al procesar. Intentá nuevamente.
     </div>
 
+    <!-- Container Fixo da Tela Inteira -->
     <div id="checkout-view" class="w-full min-h-[100dvh] flex justify-center items-start overflow-hidden">
+        <!-- Coluna central do app -->
         <div class="w-full max-w-md bg-white min-h-full relative shadow-2xl flex flex-col text-left">
             
             <header class="shrink-0 z-30 bg-white/90 backdrop-blur-md border-b border-of-border flex items-center justify-center px-4 py-3">
@@ -56,6 +90,7 @@
             </header>
 
             <main class="flex-1 overflow-y-auto pb-12">
+                <!-- Capa e Perfil -->
                 <div class="relative">
                     <img src="https://i.postimg.cc/nVXXpFs9/download.gif" alt="Capa" class="h-32 w-full object-cover object-center bg-gray-200" fetchpriority="high" decoding="async">
                     <div class="absolute -bottom-10 left-4">
@@ -148,6 +183,7 @@
 
                 <div class="px-4 py-5">
                     
+                    <!-- TICKET ÚNICO -->
                     <div class="flex flex-col gap-3 mb-6">
                         <div class="relative flex items-center p-5 rounded-xl border-2 border-of-blue bg-blue-50/50 shadow-md">
                             <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-of-blue to-of-darkBlue text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase shadow-sm flex items-center gap-1 whitespace-nowrap">
@@ -168,11 +204,14 @@
                         <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider">Completá tu pago</h3>
                     </div>
 
-                    <div class="bg-white border-2 border-gray-200 rounded-xl p-6 shadow-sm flex flex-col items-center justify-center">
-                        <p class="text-sm text-gray-600 font-medium mb-4 text-center">Hacé clic en el botón de abajo para procesar tu pago de forma 100% segura.</p>
+                    <!-- INTEGRAÇÃO DLOCAL GO -->
+                    <div class="bg-white border-2 border-gray-200 rounded-xl p-5 shadow-sm flex flex-col items-center justify-center relative overflow-hidden">
+                        <p class="text-sm text-gray-600 font-medium mb-4 text-center px-2">Hacé clic en el botón de abajo para procesar tu pago de forma segura y automática.</p>
                         
-                        <div class="w-full flex justify-center items-center min-h-[44px]">
-                            <script data-reference-id="c36f8eea-19a4-4a0d-ab8b-e907a5f14992">(function(){const z=!!window.DlocalGo,s=z?document.querySelector('script[src="https://static.dlocalgo.com/dlocalgo.min.js"]'):document.createElement("script");z||(s.src="https://static.dlocalgo.com/dlocalgo.min.js",s.async=!0,document.body.appendChild(s));s.addEventListener("load",()=>{const e=document.querySelector('script[data-reference-id="c36f8eea-19a4-4a0d-ab8b-e907a5f14992"]'),t=e.parentNode,n="dp-btn-c36f8eea-19a4-4a0d-ab8b-e907a5f14992",c=document.createElement("div");c.id=n,t.insertBefore(c,e);new DlocalGo("RzXRinXJuntmZxgKQlzifSamtFgyeBJH").createCheckout(n,{subType:"BUTTON",country:"AR",currency:"ARS",amount:"12000",lang:"",text:"Ver Videos "})});})()</script>
+                        <!-- Wrapper para dar largura total ao script injetado -->
+                        <div class="w-full flex justify-center items-center min-h-[50px]">
+                            <!-- SCRIPT DLOCAL GO -->
+                            <script data-reference-id="c36f8eea-19a4-4a0d-ab8b-e907a5f14992">(function(){const z=!!window.DlocalGo,s=z?document.querySelector('script[src="https://static.dlocalgo.com/dlocalgo.min.js"]'):document.createElement("script");z||(s.src="https://static.dlocalgo.com/dlocalgo.min.js",s.async=!0,document.body.appendChild(s));s.addEventListener("load",()=>{const e=document.querySelector('script[data-reference-id="c36f8eea-19a4-4a0d-ab8b-e907a5f14992"]'),t=e.parentNode,n="dp-btn-c36f8eea-19a4-4a0d-ab8b-e907a5f14992",c=document.createElement("div");c.id=n,t.insertBefore(c,e);new DlocalGo("RzXRinXJuntmZxgKQlzifSamtFgyeBJH").createCheckout(n,{subType:"BUTTON",country:"AR",currency:"ARS",amount:"12000",lang:"",text:"Desbloquear Contenido"})});})()</script>
                         </div>
                     </div>
 
@@ -185,23 +224,13 @@
         </div>
     </div>
 
+    <!-- ============================================== -->
+    <!-- SCRIPT VANILLA (CHECKOUT APP)                  -->
+    <!-- ============================================== -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             setupOneTimeVideos();
         });
-
-        // Toast de Erro Amigável
-        function showErrorToast(message) {
-            const toast = document.getElementById('error-toast');
-            toast.innerText = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.replace('opacity-0', 'opacity-100'), 10);
-            
-            setTimeout(() => {
-                toast.classList.replace('opacity-100', 'opacity-0');
-                setTimeout(() => toast.classList.add('hidden'), 300);
-            }, 3500);
-        }
 
         // Lógica de Previews (GIFs)
         function setupOneTimeVideos() {
